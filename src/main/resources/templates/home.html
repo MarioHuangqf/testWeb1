@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $(":button").click(function(){
+                //访问后台返回URL
+                $.get("/declare",function(data,status){
+                    //打开新窗口，post请求带参数访问CDMS
+                    //jquery打开
+                    openBlank(data, { name: "tom", age: "1"});
+
+                });
+            });
+
+            //使用POST方式打开界面
+            function openBlank(action,data){
+                var form = $("<form/>").attr('action',action).attr('method','post');
+                form.attr('target','_blank');
+                var input = '';
+                $.each(data, function(key,value){
+                    input += '<input type="hidden" name="'+ key +'" value="'+ value +'" />';
+                    });
+                form.append(input).appendTo("body").css('display','none').submit();
+                }
+
+            function make_basic_auth(user, password) {
+                var tok = user + ':' + password;
+                var hash = Base64.encode(tok);
+                return "Basic " + hash;
+            };
+        });
+    </script>
+    <meta charset="UTF-8">
+    <title>EMMS</title>
+</head>
+<body>
+    <input type="button" value="申报"/>
+</body>
+</html>
